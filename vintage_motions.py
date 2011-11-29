@@ -142,6 +142,28 @@ def advance_while_white_space_character(view, pt, white_space="\t "):
 
     return pt
 
+class MoveCaretHalfPage(sublime_plugin.TextCommand):
+    def run(self, edit, forward = True, extend = False):
+        screenful = self.view.visible_region()
+
+        row_a = self.view.rowcol(screenful.a)[0]
+        row_b = self.view.rowcol(screenful.b)[0]
+
+        page = row_b - row_a
+
+        if not forward:
+            page *= -1
+
+        half_page = page / 2
+
+        current_sel = self.view.sel()[0]
+        current_position = current_sel.b
+        row, col = self.view.rowcol(current_position)
+        target_point = self.view.text_point(row + half_page, col)
+
+        transform_selection(self.view, lambda pt: target_point, extend=extend)
+        self.view.show(target_point)
+
 class MoveCaretToScreenCenter(sublime_plugin.TextCommand):
     def run(self, edit, extend = True):
         screenful = self.view.visible_region()
