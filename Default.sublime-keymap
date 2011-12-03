@@ -211,8 +211,7 @@
 
 	{ "keys": ["d"], "command": "set_action", "args": {
 		"action": "vi_delete",
-		"description": "Delete",
-		"motion_mode": "auto_line"},
+		"description": "Delete"},
 		"context": [{"key": "setting.command_mode"}]
 	},
 
